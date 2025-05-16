@@ -1,5 +1,17 @@
 on: [push]
 jobs:
+  ssh_debug:
+    name: ssh_debug
+    runs-on: ubuntu-latest
+    steps:
+      - name: Execute remote SSH commands using password
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: along
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+          script: whoami
   deploy_job:
     runs-on: ubuntu-latest
     name: Build & Deploy React App
