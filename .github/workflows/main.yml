@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@master  # 检出代码到runner
+        uses: actions/checkout@v4  # 检出代码到runner
 
       - name: Set up Node.js
         uses: actions/setup-node@v4  # 设置Node环境
@@ -24,7 +24,7 @@ jobs:
         run: npm run build  # 执行项目构建命令
 
       - name: Deploy to server via SSH
-        uses: appleboy/ssh-action@master  # 使用SSH Action
+        uses: appleboy/ssh-action@0.1.8  # 使用SSH Action
         with:
           host: ${{ secrets.SSH_HOST }}  # SSH主机地址，从secrets获取
           username: ${{ secrets.SSH_USERNAME }}  # SSH用户名
