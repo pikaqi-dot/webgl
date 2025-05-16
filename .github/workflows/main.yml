@@ -23,21 +23,13 @@ jobs:
       - name: Build project
         run: npm run build  # 执行项目构建命令
 
-      - name: Deploy to server via SSH
-        uses: appleboy/ssh-action@v0.1.8  # 使用SSH Action
+      - name: Deploy to server via SFTP
+        uses: appleboy/sftp-action@v0.1.8  # 使用SFTP Action
         with:
-          host: ${{ secrets.SSH_HOST }}  # SSH主机地址，从secrets获取
-          username: ${{ secrets.SSH_USERNAME }}  # SSH用户名
-          password: ${{ secrets.SSH_PASSWORD }}  # SSH密码
-          port: ${{ secrets.SSH_PORT }}  # SSH端口
-          script: |  # 要执行的远程命令
-            # 创建临时目录
-            mkdir -p /tmp/deployment
-            # 删除旧的临时目录内容
-            rm -rf /tmp/deployment/*
-            # 复制文件到服务器
-            scp -r ${{ github.workspace }}/dist/* ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/tmp/deployment/
-            # 移动文件到Nginx目录
-            sudo cp -r /tmp/deployment/* /usr/share/nginx/html/
-            # 清理临时目录
-            rm -rf /tmp/deployment    
+          host: ${{ secrets.SSH_HOST }}  # SFTP主机地址，从secrets获取
+          username: ${{ secrets.SSH_USERNAME }}  # SFTP用户名
+          key: ${{ secrets.SSH_PRIVATE_KEY }}  # SFTP私钥
+          port: ${{ secrets.SSH_PORT }}  # SFTP端口
+          source: "dist/*"  # 本地源文件路径
+          target: "/usr/share/nginx/html/"  # 目标路径
+          rm: true  # 删除目标目录中的旧文件
