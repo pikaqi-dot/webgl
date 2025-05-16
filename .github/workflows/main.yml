@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4  # 检出代码到runner
+        uses: actions/checkout@master  # 检出代码到runner
 
       - name: Set up Node.js
         uses: actions/setup-node@v4  # 设置Node环境
